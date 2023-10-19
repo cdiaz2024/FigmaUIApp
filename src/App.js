@@ -101,7 +101,7 @@ const App = ({ signOut }) => {
 
   return (
     <View className="App">
-      <Heading level={5}>ATCS Practice Records</Heading>
+      <Heading level={5}>Christian's App</Heading>
       <p>This is my first paragraph.</p>
       <View as="form" margin="3rem 0" onSubmit={createNote}>
         <Flex direction="row" justifyContent="center">
