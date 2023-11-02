@@ -40,6 +40,7 @@ export const getNote = /* GraphQL */ `
       name
       description
       image
+      author
       createdAt
       updatedAt
       __typename
@@ -58,6 +59,7 @@ export const listNotes = /* GraphQL */ `
         name
         description
         image
+        author
         createdAt
         updatedAt
         __typename

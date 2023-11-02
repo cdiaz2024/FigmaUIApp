@@ -7,19 +7,24 @@ import {
   createNote as createNoteMutation,
   deleteNote as deleteNoteMutation,
 } from "./graphql/mutations";
-import { API, Storage } from 'aws-amplify';
+import { API, Storage} from 'aws-amplify';
 import {
   Button,
   Flex,
   Heading,
   Image,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  Link,
   Text,
   TextField,
   View,
   withAuthenticator,
 } from '@aws-amplify/ui-react';
 
-const App = ({ signOut }) => {
+const App = ({ signOut , user}) => {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
@@ -29,6 +34,9 @@ const App = ({ signOut }) => {
   async function fetchNotes() {
     const apiData = await API.graphql({ query: listNotes });
     const notesFromAPI = apiData.data.listNotes.items;
+    // console.log('hi')
+    // console.log(user.username)
+    // console.log("id: "+ user.attributes.email.substring(0,user.attributes.email.indexOf('@')))
     await Promise.all(
       notesFromAPI.map(async (note) => {
         if (note.image) {
@@ -45,10 +53,12 @@ const App = ({ signOut }) => {
     event.preventDefault();
     const form = new FormData(event.target);
     const image = form.get("image");
+
     const data = {
       name: form.get("name"),
       description: form.get("description"),
       image: image.name,
+      author: user.attributes.email
     };
     if (!!data.image) await Storage.put(data.name, image);
     await API.graphql({
@@ -101,8 +111,8 @@ const App = ({ signOut }) => {
 
   return (
     <View className="App">
-      <Heading level={5}>Christian's App</Heading>
-      <p>This is my first paragraph.</p>
+      <Heading level={1}>Notifly</Heading>
+      <h4>Stay On Top of Things!</h4>
       <View as="form" margin="3rem 0" onSubmit={createNote}>
         <Flex direction="row" justifyContent="center">
           <TextField
@@ -132,38 +142,38 @@ const App = ({ signOut }) => {
           </Button>
         </Flex>
       </View>
-      <Heading level={5}>Very Short Sayings</Heading>
+      {/* <Heading level={5}>Very Short Sayings</Heading> */}
       <table border="0.5px" align="center"><tbody><tr><td>
-      <ul>
-        <li>All of my notes are short quotes found online</li>
-        <li>Notice the label shows where each was created!</li>
-        <li>If you want to see a better site, go to <a href="https://master.dmm48zw3bnrws.amplifyapp.com/
-">Dylan's</a>.</li>
-      </ul>
+
       <View margin="3rem 0">
-      {notes.map((note) => (  
-  <Flex
-    key={note.id || note.name}
-    direction="row"
-    justifyContent="center"
-    alignItems="center"
-  >
-    <Text as="strong" fontWeight={700}>
-      {note.name}
-    </Text>
-    <Text as="span">{note.description}</Text>
-    {note.image && (
-      <Image
-        src={note.image}
-        alt={`visual aid for ${notes.name}`}
-        style={{ width: 80 }}
-      />
-    )}
-    <Button variation="link" onClick={() => deleteNote(note)}>
-      Delete note
-    </Button>
-  </Flex>
+      <Table><TableBody>{notes.map((note) => (
+    <TableRow key={note.id || note.name}>
+    <TableCell>
+    <Text as="strong" fontSize={12} color={'#666699'}>
+    {note.author.substring(0,note.author.indexOf('@'))}
+    </Text></TableCell><TableCell><Link
+href={note.desrtiption}
+color="#007EB9"
+isExternal={true}
+>
+    {note.name}
+    </Link>
+    </TableCell><TableCell>
+    {note.image && (
+      <Image
+        src={note.image}
+        alt={`visual aid for ${notes.name}`}
+        style={{ width: 400 }}
+      />
+    )}</TableCell><TableCell>
+    <Button variation="link" onClick={() => deleteNote(note)}>
+    <Text as="strong" fontSize={10} color={'#ff6600'}>
+      Delete
+    </Text>
+    </Button></TableCell></TableRow>
 ))}
+</TableBody></Table>
+<hr/>
       </View></td></tr></tbody></table>
       <Button onClick={signOut}>Sign Out</Button>
     </View>
