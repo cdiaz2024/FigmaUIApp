@@ -153,7 +153,7 @@ const App = ({ signOut , user}) => {
     {note.author.substring(0,note.author.indexOf('@'))}
     </Text></TableCell><TableCell><Link
 href={note.desrtiption}
-color="#007EB9"
+color= "black"
 isExternal={true}
 >
     {note.name}
