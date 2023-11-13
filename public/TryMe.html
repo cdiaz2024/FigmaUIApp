@@ -2,17 +2,42 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+  p {
+  text-align: center;
+  color: red;
+}
+</style>
 <title>My first page</title>
 </head>
+
+<style>
+  div h1 a{
+    background-color: yellow;
+  }
+  .hi {
+    color: dodgerblue;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+
+  td:nth-child(3){
+    background-color:lightgreen;
+  }
+
+  
+</style>
+
 <body>
     <table>
         <tr>
           <th colspan="2">Name</th>
-          <th class="hi">Age</th>
+          <th class="hi" style="background:lightgreen">Age</th>
         </tr>
         <tr>
           <td class="hi">Jill</td>
-          <td>Smith</td>
+          <td><a href="./Links.html">Smith</a></td>
           <td>43</td>
         </tr>
         <tr>
@@ -21,7 +46,9 @@
           <td>57</td>
         </tr>
       </table> 
-<h1>This is <a href="./hiyou.html">hiyou</a></h1>
+<div>
+      <h1>This is <a href="./hiyou.html">hiyou</a></h1>
+</div> 
 <p>This is a paragraph.</p>
 <img src="./Thumbnail 2.jpg"/>
 </body>
